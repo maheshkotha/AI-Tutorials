@@ -723,4 +723,99 @@
   ```
   ### Loop Control (Break and Continue)
   - Break Statement: Exit the loop immediately when `break` is encountered:
+  ```
+  for i := 1; i <= 10; i++ {
+    if i == 5 {
+      break;
+    }
+    fmt.Println(i)
+  }
+  ```
+  - Continue Statement: Skip the current iteration and move to the next:
+  ```
+  for i := 1; i <=10; i++ {
+    if i == 5 {
+      continue;
+    }
+    fmt.Println(i)
+  }
+  ```
+  ### Hands on Practice 
+  **Exercise** Even or odd
+  - Write a program that takes a number as input and prints whether the number is even or odd using an `if-else` statement.
+
+  ```
+  var number int
+  fmt.Println("Enter a Number");
+  fmt.Scanln(&number);
+  if number % 2 == 0 {
+    fmt.Println("Even");
+  } else {
+    fmt.Println("Odd");
+  }
+  ```
+  - Write a program that takes a score (0-100) as input and prints the grade (`A`, `B`, `C`, `F`) using a switch Statement.
+  ```
+  var marks int;
+  fmt.Print("Enter Marks: ");
+  fmt.Scanln(&marks);
+
+  switch {
+  case marks >= 75 :
+    fmt.Println("A")
+  case marks >= 50 :
+    fmt.Println("B")
+  case marks >= 35 :
+    fmt.Println("C")
+  default:
+    fmt.Println("F")
+  }
+  ```
+  - Write a program to print the multiplication table for a number (from 1 to 10) using `foor` loop
+  ```
+  var table int;
+  fmt.Print("Enter Table Number: ")
+  fmt.Scanln(&table);
+  for i := 1; i <= 10; i++ {
+    fmt.Printf("%d * %d = %d\n", i, table, i * table)
+  }
+  ```
+  - Write a program that calculates the factorial of a given number using a `for` loop.
+  ```
+  var factorial int = 1;
+  for i := 1; i <= table; i++ {
+    factorial = factorial * i;
+  }
+  fmt.Println(factorial)
+  ```
+
+  ### Challenge for Day 4
+  Create a Prime Number Checker: Write a program that takes a number as input and checks if it is a prime number using a `for` loop and `if-else` lobic.
+  ```
+  var num int;
+  var isPrime bool = true;
+
+  fmt.Print("enter a number: ");
+  fmt.Scanln(&num);
+
+  if num < 2 {
+    isPrime = false;
+  } else {
+    for i := 2; i * i <= num; i++ {
+      if num % i == 0 {
+        isPrime = false;
+        break;
+      }
+    }
+  }
+
+  if isPrime {
+    fmt.Println("Is Prime")
+  } else {
+    fmt.Println("Is Not a Prime")
+  }
+  ```
+
+  ## Day 5
+
   

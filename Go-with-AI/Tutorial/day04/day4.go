@@ -83,7 +83,58 @@ func main() {
 		fmt.Printf("Index of %d is %c\n", index, char)
 	}
 
-	
+	var marks int;
+	fmt.Print("Enter Marks: ");
+	fmt.Scanln(&marks);
 
+	switch {
+	case marks >= 75 :
+		fmt.Println("A")
+	case marks >= 50 :
+		fmt.Println("B")
+	case marks >= 35 :
+		fmt.Println("C")
+	default:
+		fmt.Println("F")
+	}
+
+	var table int;
+	fmt.Print("Enter Table Number: ")
+	fmt.Scanln(&table);
+	for i := 1; i <= 10; i++ {
+		fmt.Printf("%d * %d = %d\n", i, table, i * table)
+	}
+
+	// factorial of table
+	var factorial int = 1;
+	for i := 1; i <= table; i++ {
+		factorial = factorial * i;
+	}
+	fmt.Println(factorial)
+
+	// Prime Number
+
+	var num int;
+	var isPrime bool = true;
+
+	fmt.Print("enter a number: ");
+	fmt.Scanln(&num);
+
+	if num < 2 {
+		isPrime = false;
+	} else {
+		for i := 2; i * i <= num; i++ {
+			if num % i == 0 {
+				isPrime = false;
+				break;
+			}
+		}
+	}
+
+	if isPrime {
+		fmt.Println("Is Prime")
+	} else {
+		fmt.Println("Is Not a Prime")
+	}
 }
 
