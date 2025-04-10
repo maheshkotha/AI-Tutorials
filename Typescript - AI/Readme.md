@@ -209,3 +209,14 @@ let isDone: boolean = "Yes"  // Error: Type 'string' is not assigned to type boo
 let value: number = null; // Error: Type null is not assignable to type 'number'
 ```
 
+## Day 3
+## Variables and Constants in Typescript
+Today, we'll focus on variables, constants and how they work in Typescript. You'll learn how to define and use variables effectively with type annotation and understand conceps like mutability, scope, and the importance of constant types.
+
+* Understand the difference between `let`, `const` and `var`
+* Use type annotations for variables and constants
+* Learn about mutability in Typescript
+* Explore best practice for defining variables.
+
+
+
