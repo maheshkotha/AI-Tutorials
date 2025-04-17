@@ -816,6 +816,243 @@
   }
   ```
 
-  ## Day 5
+## Day 5
+### Functions In Go
+- Welcome to Day 5! Functions are a critical building block in any programming language, and Go provides powerful functionality to define, use, and reuse functions. Today, we'll dive into how functions work in Go, including defining functions, passing parameters, returning values, and working with advance function features like variadic parameters.
 
-  
+### What you will learn today
+* What are Functions?
+* Define Functions
+* Parameters and Arguments
+* Return Values
+* Named Return Values
+* Variadic Functions
+* Anonymous Functions
+
+### What Are Functions
+- A function is a reusable block of code that perform a specific task. Functions allow you to organize code into logical pieces, makeit more readable and modular.
+
+### Define Function
+- In Go, functions must be defined inside a package, typically `main`. A function consists of:
+  * **Keyword** `func`: indicates it's a function
+  * **Name**: The name of the function
+  * Opionally: 
+    - Parameters
+    - Return values
+  * Syntax
+  ```
+  func functionName(parameters) returnType {
+    // code to execute
+  }
+  ```
+  **Example**
+  ```
+  package main
+
+  import "fmt"
+
+  func greet() {
+    fmt.Println("Hello Go!");
+  }
+
+  func main() {
+    greet(); // Call the function
+  }
+  ```
+### Parameters and Arguments
+Functions in Go can accept input values as parameters. Parameters are declare inside parameters after the function name.
+
+#### Function with parameter
+```
+  package main
+
+  import "fmt"
+
+  func greet(name string) {
+    fmt.Printf("Hello, %s!\n", name);
+  }
+
+  func main() {
+    greet("mahesh"); // Call the function
+  }
+```
+#### Multiple parameters
+```
+  func add(a int, b int) {
+    fmt.Printf("The sum of %d and %d is %d \n", a, b, a + b)
+  }
+
+  func main() {
+    add(5, 10)
+  }
+``` 
+**Important Notes**
+- Parameters are passed by value (a copy is sent to the function)
+- The original variable in the caller is not modified.
+
+### Return Values
+Function can also return values. Use the return statement to send data back to the caller.
+
+#### Function with return value
+```
+  func add(a int, b int) int {
+    return a + b;
+  }
+
+  func main() {
+    sum := add(1, 2)
+    fmt.Printf("Sum: %d", sum)
+  }
+```
+#### Multiple return values
+```
+  func add(a int, b int) (int, int) {
+    return a + b, a - b;
+  }
+
+  func main() {
+    sum, difference := add(1, 2)
+    fmt.Printf("Sum: %d\n", sum)
+    fmt.Printf("Difference %d \n", difference)
+  }
+```
+#### Named return values
+Named return values allow you to predefine the name of the variables that a function will return.
+```
+  func calc(a int, b int)(sum int, product int) {
+    sum = a + b
+    product = a * b
+
+    return // No need to explicitly return variables as names are used
+  }
+
+  func main() {
+    s, p := calc(1, 2)
+    fmt.Printf("Sum: %d\n", s)
+    fmt.Printf("Product %d \n", p)
+  }
+```
+
+### Variadic Functions
+Variadic functions can accept a variable number of arguments. Use `...` in the parameter list to define one.
+```
+  func variadic(numbers ...int) {
+    total := 0;
+    for _, num := range numbers {
+      total += num;
+    }
+
+    fmt.Printf("Total Sum: %d\n", total);
+  }
+
+  func main() {
+    variadic(1, 2, 3, 4)
+  }
+```
+**Notes on the Variadic functions** 
+- The type of the variadic parameter must be consistent.
+- The `numbers` parameter is treated as a slice.
+
+### Anonymous Functions
+In Go, you can create anonymous functions, which are functions without a name, They are defined inline and often used for short-lived purposes like callbacks.
+```
+  func main() {
+    func (message string) {
+      fmt.Println(message)
+    }("Hello from an anonymous function!")
+  }
+```
+### Advanced function concept 
+**Function as a Value**
+Functions can be assigned to a variable
+```
+  func main() {
+    add := func(a int, b int) int {
+      return a + b
+    }
+
+    result := add(4, 5);
+    fmt.Println("Sum: ", result)
+  }
+```
+**Function as a parameter**
+You can pass a function as an argument to another function:
+```
+  func applyOperation(a int, b int, operation func(int, int) int) int {
+    return operation(a, b)
+  }
+
+  func main() {
+    add := func(a int, b int) int { return a + b}
+
+    result := applyOperation(5, 8, add)
+
+    fmt.Println("Result: ", result)
+  }
+```
+### Hands on Practice
+**Exercise 1: Gereeting function**
+Write a function that takes a `name` as an argument and return a greeting message like `Hello, [name]`
+
+```
+  func ex1(name string) string {
+    return "Hello " + name
+  }
+  func main() {
+    fmt.Println(ex1("Mahesh"));
+  }
+```
+**Exercise 2: Simple Calculator**
+Write afunction `calculator` that takes:
+- Two numbers as input.
+- An operatior (`add`, `subtract`, `multiply`, `divide`) as input 
+- Return  the result of the operation.
+```
+  func calculator(a float64, b float64, operation string) float64 {
+    switch operation {
+    case "add":
+      return a + b;
+    case "sub":
+      return a - b;
+    case "mul":
+      return a * b;
+    case "divide":
+      if b != 0 {
+        return a / b;
+      } else {
+        fmt.Println("Division by Zero!...")
+        return 0
+      }
+    default:
+      fmt.Println("Unknown Operation")
+      return 0
+    }
+  }
+  func main() {
+    fmt.Println(calculator(10, 5, "add"))
+    fmt.Println(calculator(10, 5, "sub"))
+    fmt.Println(calculator(10, 5, "mul"))
+    fmt.Println(calculator(10, 5, "divide"))
+  }
+```
+**Build a temprature Converter**
+- Convert celsius to fahrenheit.
+- Convert Fahrenheit to Celsius
+
+```
+  func CelsiusToFahrenheit(celsius float64) float64 {
+    return (celsius * 9 / 5) + 32
+  }
+
+  func FahrenheitToCelsius(fahrenheit float64) float64 {
+    return (fahrenheit - 32) * 5 / 9
+  }
+
+  func main() {
+    fmt.Println("25 C to Fahrenheit: ", CelsiusToFahrenheit(25))
+    fmt.Println("77 F to Celsius:", FahrenheitToCelsius(77))
+  }
+```
+
+## Day 6
+
