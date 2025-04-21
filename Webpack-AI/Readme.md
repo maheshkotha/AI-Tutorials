@@ -313,3 +313,163 @@ devServer: {
   ```
   Resatart the Dev Server with `npm run start` and test the changes.
 
+## Day 4
+### Understand Webpack Default Configuration
+- Today you'll dive deeper into Webpack's default configuration settings to understand how Webpack process entry, output, mode, and other factors. You'll streamline your webpack setup and lay the foundation for handling multiple file types more effectively.
+
+### What you will learn today
+1. Webpack default configuration (entry point, output files, mode)
+2. The structure and purpose of `webpack.config.js`.
+3. Writing more efficient configuration to handle basic build workflow.
+
+### Explore Default Webpack Behavior
+Before explicitly configuring anything, Webpack already has default settings that is uses when certain options aren't defind.
+#### Default Webpack Configuration Values.
+  - **Default Entry Point**
+    - Webpack looks for `src/index.js` as the default entry file if none is specified.
+  - **Default Output** 
+    - The output file is named `main.js`
+    - It is placed in the `dist/` folder
+  - **Default Mode**
+    - Webpack sets the `mode` to `production` if it's not explicitly defined.
+    - Setting `mode: "development"` results in:
+      * Easier debugging with source maps.
+      * More readable, unminified code.
+    - Setting `mode: "production"` results in:
+      * Minified assets.
+      * Optimization features (tree-shaking, code spliting).
+  
+### Get Hands-On with Webpack Defaults
+Let's build a new project to test Webpack's default configuration:
+1. Create a new folder for your project
+```
+  mkdir wepack-defaults
+  cd webpack-defaults
+```
+2. Initialize a new project:
+```
+  npm init -y
+```
+3. Install Webpack and Webpack CLI as development dependencies:
+```
+  npm install webpack webpack-cli --save-dev
+```
+4. Create folder structure
+```
+  webpack-default
+    dist
+      index.html
+      main.js
+    src
+      index.js
+```
+5. Add some code to `src/index.js`
+```
+  console.log("Webpack default behavior test")
+```
+6. Add an HTML file in `dist/index.html`
+7. Run webpack to test default settings without a configuration file:
+```
+npx webpack
+```
+8. Open `dist/index.html` in your browser and check the Console - make sure the "Wepack Default Behavior Test" message appears!
+
+### Create a Custome Webpack Config File
+While the default behavior works for basic projects, you'll often need explicit control. Create a `webpack.config.js` file to message project settings.
+
+1. Create a `webpack.config.js`
+In your project root folder, create `webpack.config.js` with the following:
+```
+  const path = require('path')
+
+  module.exports = {
+    entry: './src/index.js',
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    },
+    mode: "development"
+  }
+```
+2. Run the webpack with custome config.
+New use Webpack with your configuration file:
+  - Run the following command:
+  ```
+  npx webpack
+  ```
+  - Webpack takes `src/index.js` for input.
+  - Outputs a bundled file named `bundle.js` into the `dist/` folder.
+  - Sets the `mode` to development
+
+3. Open `dist/index.html` in your browser. Update the `<script>` tag to reference `bundle.js`:
+```
+  <script src="bundle.js"></script>
+```
+Verify the console output.
+
+### Understand Webpack Config Components
+Take time to explore each part of the `webpack.config.js` file:
+  1. entry:
+    - Specifies where Webpack starts bundling (`src/indes.js` in most cases)
+    - You can also define multiple entry points for apps with multiple files.
+  2. Output:
+    - Defines where the bundle file will be saved.
+    - `[name]`and `[hash]` placeholders are often used for unique filenames.
+  3. resolve
+    - Helps Webpack locate modules/files (useful for aliasing or shortening paths).
+  4. mode
+    - Sets Webpack behavior 
+      * Development: Debugging tools (unminified with source maps).
+      * Production: Optimizations like minification and tree-shaking.
+
+### Experiment with Mode Settings
+  1. Test Production mode
+  Update `webpack.config.js` and change `mode` from `"development"` to `"production"`:
+  ```
+  mode: "production"
+  ```
+  Run with webpack again
+  ```
+  npm run build
+  ```
+  2. Compare Development Vs Production Output
+  - Open the generated file `dist/bundle.js` in the text editor
+  - Observe the difference
+    * Development: Code is readable, not minified.
+    * Production: Code is minified, optimized, and much smaller.
+
+### Hands-ON Challenge: Adding multiple Entry points
+Let's learn how to configure multiple entry files.
+1. Update the project structure
+Add a second file (`src/about.js`):
+
+```
+console.log("About page Script");
+```
+2. Update `webpack.config.js` for multiple entry points
+modify `webpack.config.js` to include both entry files.
+```
+module.export = {
+  entry: {
+    main: './src/index.js',
+    about: './src/about.js',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  mode: "development"
+}
+```
+3. Test Multiple Entry points
+Run Webpack again
+```
+npx webpack
+```
+Checkout the output files in `dist/`
+- You'll see `main.bundle.js` and `about.bundle.js`
+
+### Key Outcomes for Today
+- Default Webpack Behavior
+- Webpack Config file
+- Multiple entry points
