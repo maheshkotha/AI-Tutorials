@@ -210,7 +210,7 @@ let value: number = null; // Error: Type null is not assignable to type 'number'
 ```
 
 ## Day 3
-## Variables and Constants in Typescript
+### Variables and Constants in Typescript
 Today, we'll focus on variables, constants and how they work in Typescript. You'll learn how to define and use variables effectively with type annotation and understand conceps like mutability, scope, and the importance of constant types.
 
 * Understand the difference between `let`, `const` and `var`
@@ -218,5 +218,266 @@ Today, we'll focus on variables, constants and how they work in Typescript. You'
 * Learn about mutability in Typescript
 * Explore best practice for defining variables.
 
+### Step 1: let vs const vs var
+Typescript uses the same variable declaration keyword as javascript `let`, `const`, and  `var`.
+#### let
+- Allow variables to e declared that can be reassigned later.
+- Has `block scope`. This means the variable is only accessible inside the block where it's declared.
+- Recommended when you expect the value to change.
+```
+let count: number = 0;
+count = 5;
+console.log(count)
+```
+#### const
+- Used to declare constants (variable whose value cannot be reassigned after initialization).
+- Has `block scope`.
+- Best practice: Use `const` for values that will not change.
+```
+const pi: number = 3.14
+// pi = 3.15   // Error Cannot assign to pi because it is a constant
+console.log(pi)
+```
+#### var
+- Declare variables that are function scoped.
+- `var` does not respect block scope and is considered outdated.
+- Avoiding using `var` in modern Typescript code.
+
+```
+var message: string = "Hello"
+if (treu) {
+  var message: string = "Hey"
+}
+console.log(message) // Hey
+```
+### Declare Variable with Type Annotations
+When declaring a variable, you can use type annotations to specify the variable's type explicitly.
+```
+let age: number = 10; // Type number
+let username: string = "mahesh" // Type string
+let isActie: boolean = true  // Type boolean
+let numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8] // Type number[]
+```
+**Typescript enforces strict type checking:**
+```
+let name: string = "Alice";
+// name = 42  // Error Type 'number' is not assignable to type 'string'
+```
+
+### Type Inference
+Typescript can automatically infer the type based on initial value assigned to the variable.
+```
+let city = "New York" // Typescript inference the type 'string'
+let year = 2025 // Typescript inference the type 'number'
+```
+```
+let country: string = "USA" // Explicit type annotation
+let population = 331 // Inferred type
+```
+### Constants and Their Behavior
+Constants (`const`) are immutable, meaning their value cannot be reassigned. However, if the constant is an object or array, you can modify its contents.
+
+```
+const settings = {
+  theme: "light",
+  language: "en",
+};
+
+settings.theme = "dark"  // Valid (modifying boject content)
+settings.language = "fr"; // Valid
+console.log(settings) // output {theme: "dark", language: "fr"}
+
+// settings = {}  // Error: Cannot reassign a constant
+```
+
+### Scope of let and const
+Typescript follows Javascript's scope rules:
+**Block Scope**
+- Variable declared with `let` or `const` are only accessable within the block they are defined in.
+```
+{
+  let a = 10;
+  const b = 20;
+  console.log(a) // 10
+  console.log(b)  // 20
+}
+console.log(a) // Error 'a' is not defined
+console.log(b) // Error 'b' is not defined
+```
+**Function Scope**
+- Variable declared with `var` can be accessed from outside the block (not recommended).
+```
+function doSomething() {
+  var x = 10;
+  console.log(x); // output 10
+}
+
+doSomething();
+console.log(x) // Error: 'x' is not defined
+```
+### Tips for Working with Variables
+- Use `const` for values that shouldn't change - this ensure immutability.
+- Use `let` for variables whose value will change
+- Avoid `var` -- stick to `let` and `const` for predictable behavior.
+- Always include type annotations for complex or ambiguous types.
+- Avoid relying too much on type inference for production-level code - explicit types make your code clearer add easir to debug.
+
+### Practice Tasks
+Try out the following exercises to strengthen your understanding.
+* Declare the variables
+  - A `string` variable named `user` with the value "Alice".
+  - A `number` variable name `score` with the value 100.
+  - A`boolean` variable name 'isActive` with the value true.
+* Check a block scope variable using `let` inside a conditional block. Check if it is accessible outside the block.
+* Define a immutable constant `items` as an array containing three strings: `"Apple"`, `"Orange"`, and `"banana"`. Modify its content by adding `"grape"`
+* Write a typescript snippet that throws an error when type missmatch occurs:
+```
+let myage: number = 25;
+myAge = "twenty-five" // Force the error
+```
+### Common Mistakes and Pitfalls
+* Forgetting to use type annotations: While Typescript can infer types, explicit type declarations improve redability in large projects.
+* Modifying a constant incorrectly
+* Using `var` in modern Typescript: Avoid using `var` since its function-scoped behavior can lead to unexpected bugs.
+
+## Day 4 : Objects and Arrays in Typescript
+Today we'll focux on objects and arrays in Typescript, enableing you to define and work with more complex data structures. These are fundamentals in Typescript and give you tools to model real-world data effectively.
+
+### Learning Objectives
+- Understand how to define and annotate objects.
+- Learn array types and operations.
+- Explore readonly properties in Objects and arrays
+- Understand and utilize Typescript tuples.
+
+### Defining and Typing Objects
+You can define objects and annotate their property types explicitly:
+```
+let user: {name: string; age: number; isActive: boolean} = {
+  name: "Alice",
+  age: 25,
+  isActive: true
+};
+console.log(user.name) // Alice
+```
+**Optional Properties**
+Use `?` to define optional properties in an object:
+```
+let product: {id: number; name: string; price?: number } = {
+  id: 1,
+  name: "Laptop"
+};
+console.log(product.price) // undefined
+```
+**Readonly Properties**
+Typescript allows you to define properties as `readonly` meaning their values cannot be changed after initialization:
+```
+let userProfile: {readonly id: number; name: string} = {
+  id: 101,
+  name: "Bob"
+}
+// userProfile.id = 102 // Error: cannot assign to id because it is a read-only property
+```
+### Working with Arrays
+Typescript allows you to define arrays with explicit types to ensure the array contains elements of a specific type.
+**Define Array Types**
+- Simple Array (Type followed by `[]`):
+```
+let scores: number[] = [ 10, 20, 30];
+let colors: string[] = ["red", "green", "blue"];
+```
+- Array using Generics (`Array<Type>`):
+```
+let fruits: Array<string> = ["Apple", "Banana", "Cherry"];
+```
+**Read Only Arrays**
+To make an array immutable, use the `readonly` modifier:
+```
+const numbers: readonly number[] = [1, 2, 3];
+numbers.push(4) // Error: Cannot modify a readonly array
+```
+**Multidimentional Arrays**
+Multidimentional arrays can be typed by nesting array types:
+```
+let matrix: number[][] = [
+  [1, 3],
+  [2, 4],
+];
+console.log(matrix[0][1]); // Output: 3
+```
+**Union Type in Array**
+You can define arrays that hold multiple types using union types:
+```
+let mixedArray: (number|string)[] = ["Alice", 10, "Bob", 20];
+console.log(mixedArray)// Output: ["Alice", 10, "Bob", 20]
+```
+### Tuples
+A Tuple is a fixed-length array with specific types for each position. Tuple allows you to strictly define the structure and type of data.
+```
+let userTuple: [string, number, boolean] = ["Alice", 23, true]
+console.log(userTuple[0]) // output: Alice
+```
+**Accessing Tuple Values**
+You can access tuple values like array elements:
+```
+console.log(userTuple[2]) // Output : true
+```
+**Optional Values in Tuples**
+```
+let logData: [string, number?] = [Error, 404];
+console.log(logData[1]) // Output: 404
+```
+**Using Tuple with Destructuring**
+You can destructure tuple into variables:
+```
+let userInfo: [string, number] = ["Alice", 24];
+let [name, age] = userInfo;
+console.log(name) // Alice
+console.log(age) // 24
+```
+### Combining Objects and Arrays
+You can work with objects and arrays together to model complex data.
+**Example 1: Arfray Of Objects**
+```
+let users : {name: string, age: number}[] = [
+  {name: "Alice", age: 24},
+  {name: "Bob", age:32},
+];
+console.log(users[1]) // Output: {name: "Bob", age: 32}
+```
+**Example 2: Objects with Array Properties**
+```
+let team: {name: string, members: string[]} = {
+  name: "Developers",
+  members: ["Alice", "Bob", "Charlie"],
+};
+console.log(team.members) // Output: ["Alice", "Bob", "Charlie"]
+```
+### Practice Tasks
+Try the following exercises to build your understanding:
+1. Create an object that represents a car with the following properties:
+  * `brand` (string)
+  * `model` (string)
+  * `year` (number)
+  * `features?` (optional array of strings)
+2. Define an array of objects where each object represents a `student` with `name` (string), and `grade` (number).
+3. Create tuple to represent a blog post with the following data:
+  * `title` (string),
+  * `views` (number),
+  * `published` (boolean)
+4. Create a readonly array containing three favorite colors.
+5. Write a function that accepts an array of `{id: number, name: string}` and returns a string array of the names.
+
+### Common Mistakes
+1. Mixing Types in an Array Without Union Types:
+```
+let values: string[] = [1, "Alice"] // Error: Type "number" is not assignable to type 'string'
+```
+2. Using Arrays in Place of Tuples: Arrays can hold a variable number of elements, so tuples should be used when a fixed length and type are required.
+3. Modifying Readonly Arrays or Properties:
+```
+const nums: readonly number[] = [1, 2, 3];
+num.push(4) // Error: Cannot modify a readonly array
+```
+## Day 5: Functions in Typescript
 
 
