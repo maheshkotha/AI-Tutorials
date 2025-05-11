@@ -479,5 +479,405 @@ const nums: readonly number[] = [1, 2, 3];
 num.push(4) // Error: Cannot modify a readonly array
 ```
 ## Day 5: Functions in Typescript
+Today we'll dive deep into functions in Typescript, one of the most important building blocks of any application. Function in Typescript make your code safer, more redabale, and easier to debug by enforcing types for their parameters and return values.
 
+### Learning Objecties
+1. Understand and apply type annotations to function parameters.
+2. Specify return types for functions.
+3. Learn about optional parameters, default values, and rest parameters.
+4. Understand how to written arrow functions.
+5. Practice creating type-safe functions.
 
+### Step 1: Anatomy of a Function with Type Annotations
+In Typescript, you can add type annotations to:
+- Function Parameter
+- Return Values
+
+```
+function greet(name: string): string {
+  return `Hello ${name}`
+}
+console.log(gree("mahesh"));
+```
+- `name: string` - The Parameter `name` must be of type `string`
+- `: string` after the parantheses -- Specifies that the function will return a `string`.
+If you pass incorrect arguments or the function returns the wrong type, Typescript will raise an error.
+
+### Step 2: Function Parameters
+You must annotate the types of all parameters explicitly unless Typescript can infer them. 
+
+**Example of Function Parameters**
+```
+function add(a: number, b: number): number {
+  return a + b;
+}
+console.log(add(10, 20)) // 30
+```
+If you try to call the function with the wrong types:
+```
+add(5, '10') // Error: Argument of type 'string' is not assignable to parameter of type 'number'
+```
+**Optional Parameters**
+You can make a parameter optional by adding `?` after its name:
+```
+function multiply(a:number, b?: number): number {
+  return b ? a * b : a;
+}
+console.log(multiply(5)) // Output: 5
+console.log(multiply(5, 10)) // Output: 50
+```
+**Default Parameters**
+You can provide default values for parameters:
+```
+function divide(a: number, b: number = 1): number {
+  return a / b;
+}
+console.log(divide(10, 2)) // output 5
+console.log(divide(10)) // output 10
+```
+### Step 3: Specifying Return Types
+You can specify the type of the value a function should return using `: <type>`after the parantheses.
+
+```
+function calculateArea(width: number, height: number): number {
+  return width * height
+}
+console.log(calculateArea(5, 4)) // Output : 20
+```
+If the function implementation return the wrong type, Typescript will raise an error:
+
+```
+function isEven(num: number): boolean {
+  return num % 2 === 0;
+}
+console.log(isEven(4)) // Output true
+console.log(isEven("4")) // Error: Argument of type 'string' is not assignable to parameter of type 'number'
+```
+**Void Return Type**
+If a function does not return a value, use `void` as the return type:
+
+```
+function printMessage(message: string): void {
+  console.log(message);
+}
+```
+You cannot return anything from a function with a `void` return type:
+```
+function invalidFunction(): void {
+  return 42; // Error: Type number is not assignable to type 'voide'
+}
+```
+### Step 4: Arrow Functions
+Arrow functions use a more concise syntax for writing functions. You can still apply type  annotations to their arguments and return values.
+
+```
+const add = (a: number, b: number): number => a + b;
+console.log(add(10, 20)); // Output: 30
+```
+Arrow functions work the same as traditional functions in terms of type annotations:
+
+```
+const greet = (name: string): string => `Hello ${name}`;
+console.log(greet("Bob"))
+```
+### Step 5: Rest Parameters
+You can use rest parameters to collect all remaining arguments into an array. Type the rest parameter as an array.
+
+``` 
+function totalSum(...numbers: number[]): number {
+  return numbers.reduce((sum, current) => sum + current, 0);
+}
+console.log(totalSum(1, 2, 3, 4, 5)) // Output : 15
+```
+Here, `numbers` is treated as an array of numbers(`number[]`).
+
+### Step 6: Function Types
+Typescript allows you to define the type of a function itself. This is useful for assigning functions to variables or passing functions as arguments to other functions.
+
+```
+type MathOperation = (a: number, b: number) => number;
+
+let add: MathOperation = (a, b) => a + b;
+let multiply: MathOperation = (a, b) => a * b;
+
+console.log(add(10, 20)) // Output : 30
+console.log(multiply(10, 20)) // output : 200
+```
+1. `MathOperation` is a custom type for functions that take two numbers parameters and return a number.
+
+2. We enforce that both `add` and `multiply` follow the same function type.
+
+### Step 7: Practice Tasks
+Try the following tasks to solidify your understanding:
+1. Write a function `subtract(a: number, b: number): number` that subtracts `b` from `a`.
+2. Define a function `sayHello(name?: string): string` that returns `Hello Guest`. If no no name is provided. Otherwise, it should return `Hello <name>`.
+3. Create an arrow function `square = (x: number): number` that return the square of a number.
+4. Write a function `concatenateStrings(...strings: string[]): string` that concatinates all inputs strings and return a single string.
+5. Use a function type `SoftFunction = (a: number, b: number) => number` to create a function that sorts two numbers in assending order.
+
+## Day 6: Interfaces in Typescript
+On day 6, we'll explore interfaces, one of Typescript's most powerful features. Interfaces allow you to define the shape of an object, ensuring that your data conforms to specific structure. You'll also learn how interfaces can help with reusability, code readability and type consistency.
+
+**Learning Objectives**
+- Understand what an interface is and how it works in Typescript.
+- Define and use interfaces for objects.
+- Learn about optional and readonly properties in interfaces.
+- Use interfaces with functions.
+- Explore how classes can implement interfaces.
+- Compare interfaces and Type Aliases.
+
+### Step 1: What is an interface?
+An interface in Typescript is a structure that defines the type of an object. It is used to enforce a specific shape (structure) of code.
+
+```
+interface User {
+  name: stgring;
+  age: number;
+  isAdmin: boolean;
+}
+
+const user: User = {
+  name: "Alice",
+  age: 30,
+  isAdmin: true
+};
+console.log(user.name); // Output: Alice
+```
+In the above example 
+- The `User` interface defines the structure: it must have `name`(string), `age`(number), and `isAdmin`(boolean).
+- The `user` object respect and conforms to this structure.
+
+### Step 2: Defining and Using Interfaces
+You use the `interface` keyword to define an interface.
+**Declaring in Interface**
+```
+interface Book {
+  title: string;
+  author: string;
+  pages: number;
+}
+
+const myBook: Book = {
+  title: "Typescript Handbook",
+  author: "Microsoft",
+  page: 120
+};
+
+console.log(myBook.title) // Output: Typescript Handbook
+console.log(myBook.author) // Output: Microsoft
+```
+If you forget a required property or provide the wrong type, Typescript will raise an error:
+```
+const invalidBook: Book {
+  title: "Wrong Book"
+};
+// Missing 'author' and 'pages' will cause an error 
+```
+### Step 3: Optional Properties
+interface Product {
+  id: number;
+  name: string;
+  price?: number; // Optional property
+}
+
+const product1: Product = {
+  id: 1,
+  name: "Laptop"
+}
+const product2: Product = {
+  id: 2, 
+  name: "Phone",
+  price: 9999
+};
+
+console.log(product1.price) // Output: undefined
+console.log(product2.price) // Output: 9999
+
+### Step 4: Readonly Properties
+You cna use the `readonly` keyword to prevent properties from being modified after the object is created.
+
+```
+interface Car {
+  readonly id: number;
+  brand: string;
+}
+
+const myCar: Car = {
+  id: 101
+  brand: "Ford"
+}
+myCar.id = 102 // Error: cannot assign to id  because it is a read-only property
+myCar.brand = "Tesla" // No Error
+console.log(myCar) // {id: 101, brand: "Tesla"}
+```
+### Step 5: Interfaces with Functions
+Intefaces can also be used to define the structure of a function, including its parameters and return type.
+
+**Example: Using an Interface for a Function**
+```
+interface AddFunction {
+  (a: number, b: number) => number // Define parameter type and return type
+}
+
+const add: AddFunction = (a, b) => a + b; // Function must match the interface
+console.log(add(10, 30)) // Output: 40
+```
+
+### Step 6: Classes Implementing Interfaces
+Classes can implement interfaces to ensure they follow a specific structure. When a class implements an interface:
+
+1. The class must include all the properties and methods specified by the interface.
+2. Typescript enforces that the structure matches the interface exactly.
+
+```
+interface Animal {
+  name: string;
+  makeSound(): void;
+}
+
+class Dog implements Animal {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  makeSound(): void {
+    console.log(`${this.name} says Woof`);
+  }
+
+}
+
+const myDog = new Dog("Buddy");
+myDog.makeSound(); // Output: Buddy says Woof
+
+```
+If the `Dog` class is missing any required property or method from the `Animal` interface, Typescript will throw an error.
+
+### Step 7: Extending Interfaces
+You can create new interfaces by extending existing ones. This allows you to build on top of an existing structure.
+
+**Example**
+```
+interface Person {
+  name: string;
+  age: number;
+}
+
+interface Employee extends Person {
+  position: string;
+  salary: number;
+}
+
+const employee: Employee = {
+  name: "Alice",
+  age: 30, 
+  position: "Developer",
+  salary: 80000
+};
+console.log(employee.name);
+```
+
+### Step 8: Interfaces Vs Type Aliases
+Both interfaces and type aliases can be used to define object shapes, but there are some important differences.
+
+**Interface** 
+Object: Used to define the shape of an object
+Extensibility: Support inheritance using `extends`.
+Functions: Can define both objects and functions.
+Unions and Premitivies: Not allowed to define unions or primitives (e.g, sting, number)
+
+**Type Aliases**
+Object: Can also define object shapes (similar to interfaces).
+Extensibility: Supports combining types using intersection (`&`), but inheritance-style extensions are not supported directly.
+Functions: Can define both objects and functions.
+
+**Example of intersection with Type Aliases:**
+```
+type Admin = {
+  role: string;
+};
+
+type User = {
+  name: string;
+  age: number;
+};
+
+type AdminUser = Admin & User;
+
+const adminUser: AdminUser {
+  role: "Administrator",
+  name: "John",
+  age: 35
+};
+```
+Use interfaces when designing object structure or contracts for classes, and use type aliases for more flexibility with union and primitive types.
+
+## Day 7 - Practice Day
+Today is practice day, where you'll reinforce everything you've learned so far. You will work on practical exercises that involve combining concepts from the past six days, including variable, types, functions, objects, and interfaces.
+
+### Practice day goal
+1. Apply the concepts you've learned through hands-on exercises.
+2. Create a mini-project that utilize your skills.
+3. Identify areas where you feel less confident, so you can revisit those topics.
+
+### Part 1: Practice Exercises
+1. **Typing Variables and Functions**
+  1. Create the following variables with annotations:
+  - A string variable `componentName` = `"Tech Corp"`
+  - A Number variable `employeeCount` = `100`
+  - A boolean variable `isHiring` = `true`
+
+  2. Create a function `calculateSalary` that:
+    - Accepts two parameters: `basicSalary` (number) and `bonous` (number, optional).
+    - Return the total salary as a number
+    - if `bonus` is not provided, assume it is `0`.
+
+  3. Write a function that takes a string array of numbers and prints each name with its index.
+
+2. **Objects and Interfaces**
+  1. Define an interface for a `Product` object:
+    - `id` (number readonly)
+    - `name` (string)
+    - `price` (number)
+    - `category` (string, optional)
+  2. Create an array of products that conforms to the above interface:
+  3. Write a function `getProductDetails`:
+    - Accepts a `Product` object and logs its details to the console in the format
+    ```
+    Product: Laptop(ID:1)
+    Price: $1000
+    ```
+3. Combining Objects, Arrays, and Functions.
+  1. Create an array of objects representing employees, where each object has:
+    - `id` (number)
+    - `name` (string)
+    - `role?` (string, optional)
+  2. Write a function `addNewEmployee` that:
+    - Accepts the employee array and a new employee object as parameters.
+    - Adds the new employee object to the array.
+  3. Write a function `getEmployeeById` that:
+    - Accepts an employee array and an employee ID as parameters.
+    - Returns the employee object with the given ID (or `undefined` if not found)
+
+4. Advanced Type Annotations
+  1. Define an interface for a `Shape` that includes:
+    - `name` (string)
+    - `getArea()` method that returns a number.
+  2. Create classes for `Circle` and `Rectangle` that implement the `Shape` interface:
+    - For `circle`, take a `radius` and calculate the area as: `PI * radius^2` 
+    - For `Rectangle`, take a `width` and `height` and calculate the area as: `width * height`.
+  3. Write a function `printShapeArea` that:
+    - Accepts a `Shape` instance.
+    - Logs the area of the shape.
+
+### Part 2: Mini-Project
+Let's build a small application that integrates multiple concepts you've learned so for.
+
+Project: **Task Management System**
+We'll create a simple system that allows managing a list of tasks.
+
+**Step 1: Define the Data Structure**
+1. Create an interface `Task`:
+  - `id`: number
+  - `title`: string
